@@ -14,21 +14,30 @@
 <body>
     <header class="text-center fs-4 fw-bolder text-white">Weather Dashboard</header>
     <main class="container">
-        <div class="row">
-            <div class="col-2 col-md-4 border border-danger">
+        <div class="row justify-content-center">
+            <div class="col-1 col-md-3">
                 <h4>Search for a City:</h4>
-                <form class="row">
-                    <input class="form-control w-100" type="text" id="city" placeholder="San Diego">
-                    <button type="submit" class="w-100 btn btn-primary">Search</button>
+                <form class="row justify-content-center" id="city-form">
+                    <input type="text" class="form-input mb-2" id="city" placeholder="San Diego">
+                    <button type="submit" class="btn btn-primary mb-2">Search</button>
                 </form>
-                <div class="btn-group-vertical border-top border-secondar border-3">
-                    <div class="btn btn-secondary m-1">City 1 history</div>
-                    <div class="btn btn-secondary m-1">City 2 history</div>
+                <div class="row justify-content-center border-top border-secondary border-3" id="search-history">
+                    <button class="btn btn-secondary m-1">City 1 history</button>
                 </div>
             </div>
-            <div class="col-10 col-md-8 border border-danger">
-                <section class="border border-dark">Weather Goes Here</section>
-                <section class="">5 Day Forecast:
+            <div class="col-10 col-md-8">
+                <section id="city-wx"class="border border-dark">
+                    <div id="dateTime">
+                        <h3 class="timezone"></h3>
+                        <div id="currentDate"></div>
+                        <img src="" class="icon img-fluid" />
+                    </div>
+                    <p class="temp"></p>
+                    <p class="humidity"></p>
+                    <p class="wind_speed"></p>
+                    <p class="uvi"></p>
+                </section>
+                <section class="">5-Day Forecast:
                     <div class="d-flex flex-row justify-content-around">
                         <div class="bg-dark text-white" id="day1">Day 1</div>
                         <div class="bg-dark text-white" id="day2">Day 2</div>
@@ -40,6 +49,7 @@
             </div>
         </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
