@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+        crossorigin="anonymous">
+</head>
+<body>
+    <header class="text-center fs-4 fw-bolder text-white">Weather Dashboard</header>
+    <main class="container">
+        <div class="row">
+            <div class="col-2 col-md-4 border border-danger">
+                <h4>Search for a City:</h4>
+                <form class="row">
+                    <input class="form-control w-100" type="text" id="city" placeholder="San Diego">
+                    <button type="submit" class="w-100 btn btn-primary">Search</button>
+                </form>
+                <div class="btn-group-vertical border-top border-secondar border-3">
+                    <div class="btn btn-secondary m-1">City 1 history</div>
+                    <div class="btn btn-secondary m-1">City 2 history</div>
+                </div>
+            </div>
+            <div class="col-10 col-md-8 border border-danger">
+                <section class="border border-dark">Weather Goes Here</section>
+                <section class="">5 Day Forecast:
+                    <div class="d-flex flex-row justify-content-around">
+                        <div class="bg-dark text-white" id="day1">Day 1</div>
+                        <div class="bg-dark text-white" id="day2">Day 2</div>
+                        <div class="bg-dark text-white" id="day3">Day 3</div>
+                        <div class="bg-dark text-white" id="day4">Day 4</div>
+                        <div class="bg-dark text-white" id="day5">Day 5</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
