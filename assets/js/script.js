@@ -1,21 +1,25 @@
 var cityFormEl = document.getElementById("city-form");
 var cityInputEl = document.getElementById("city");
 var cityWxEl = document.getElementById("city-wx");
-var timezoneEl = document.querySelector(".timezone");
 var currentDateEl = document.getElementById("currentDate");
 var tempEl = document.querySelector(".temp");
 var humidityEl = document.querySelector(".humidity");
 var windSpeedEl = document.querySelector(".wind_speed");
 var uvIndexEl = document.querySelector(".uvi");
 var iconEl = document.querySelector(".icon");
+var cityNameEl = document.getElementById("cityName");
 var appKey = "de8abe91cabf5ea9e7d6f8265f339520";
 var lat = null;
 var long = null;
 var citySearchHistory = document.getElementById("search-history");
+var dateTimeEl = document.getElementById('dateTime');
+let cityName = null;
 
 var citySubmissionHandler = function(event) {
     event.preventDefault();
-    var cityName = cityInputEl.value.trim();
+    var cityName = cityInputEl.value;
+
+    clearCurrentCityWeather();
 
     if (cityName) {
         getCityCoordinates(cityName);
@@ -23,6 +27,8 @@ var citySubmissionHandler = function(event) {
     } else {
         alert("Please enter a City");
     };
+
+    return;
 };
 
 var getCityCoordinates = function(city) {
@@ -30,6 +36,8 @@ var getCityCoordinates = function(city) {
     + city 
     + "&limit=1&appid="
     + appKey;
+    var citySearch = JSON.parse(localStorage.getItem("cities")) || [];
+
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -51,11 +59,11 @@ var getCurrentCityWeather = function(lat, long) {
     + appKey)
     .then(response => response.json())
     .then((data) => displayCityWeather(data))
-    // .then((data) => displayFutureCityWeather(data));
 };
 
-var displayCityWeather = function(data) {
-    var city = data.timezone;
+var displayCityWeather = function(data, cityName) {
+    cityWxEl.prepend(cityNameEl);
+    
     var currentWxIcon = data.current.weather[0].icon;
     var currentWxTemp = data.current.temp;
     var currentHumidity = data.current.humidity;
@@ -65,15 +73,27 @@ var displayCityWeather = function(data) {
     var date = data.current.dt;
     var date = moment.unix(date).format("MM/DD/YYYY");
     var uvIndexSpanEl = document.createElement("span");
+    uvIndexEl.append(uvIndexSpanEl);
 
-
-    timezoneEl.innerText = "Weather in " + city;
+    cityNameEl.innerText = "Weather in " + cityName;
     currentDateEl.innerHTML = "(" + date + ")";
     tempEl.innerText = "Temp: " + currentWxTemp + "°F";
     humidityEl.innerText = "Humidity: " + currentHumidity + "%";
     windSpeedEl.innerText = "Wind: " + currentWind + " MPH";
-    uvIndexEl.innerText = "UV Index: " + currentUVI;
+    uvIndexSpanEl.innerText = "UV Index: "+ currentUVI;
     iconEl.src = "https://openweathermap.org/img/wn/" + currentWxIcon + ".png";
+
+    if (currentUVI < 3) {
+        $(uvIndexSpanEl).css({'background-color':'green', 'color':'white'});
+    } else if (currentUVI < 6) {
+        $(uvIndexSpanEl).css({'background-color':'yellow', 'color':'white'});
+    } else if (currentUVI < 8) {
+        $(uvIndexSpanEl).css({'background-color':'orange', 'color':'white'});
+    } else if (currentUVI < 11) {
+        $(uvIndexSpanEl).css({'background-color':'red', 'color':'white'});
+    } else {
+        $(uvIndexSpanEl).css({'background-color':'violet', 'color':'white'});
+    };
 
     var fiveDayHeaderEl = document.getElementById("fiveDayHeader");
     var fiveDayEl = document.createElement("h3");
@@ -104,14 +124,39 @@ var displayCityWeather = function(data) {
         dailyWxCardEl.classList = "card-body";
         dailyWxCardEl.innerHTML =   `<h6>${date}</h6>
                                     <img src= "http://openweathermap.org/img/wn/${icon}.png"> </><br>
-                                    ${temp}°F<br>
-                                    ${wind} MPH <br>
-                                    ${humidity}%`
+                                    Temp: ${temp}°F<br>
+                                    Wind: ${wind} MPH <br>
+                                    Humidity: ${humidity}%`
         dailyWxEl.appendChild(dailyWxCardEl);
         futureForecast.append(dailyWxEl);
 
     };
 };
 
+var clearCurrentCityWeather = function() {
+    var cityNameEl = document.getElementById("cityName");
+    cityNameEl.innerHTML = "";
+    
+    var currentDateEl = document.getElementById("currentDate");
+    currentDateEl.innerHTML = "";
+
+    var tempEl = document.querySelector(".temp");
+    tempEl.innerText = "";
+
+    var humidityEl = document.querySelector(".humidity");
+    humidityEl.innerText = "";
+
+    var windSpeedEl = document.querySelector(".wind_speed");
+    windSpeedEl.innerText = "";
+
+    var uvIndexEl = document.querySelector(".uvi");
+    uvIndexEl.innerText = "";
+
+    var fiveDayHeaderEl = document.getElementById('fiveDayHeader');
+    fiveDayHeaderEl.innerHTML = "";
+
+    var futureForecaseEl = document.getElementById('future-forecast');
+    futureForecaseEl.innerHTML = "";
+};
 
 cityFormEl.addEventListener("submit", citySubmissionHandler);
