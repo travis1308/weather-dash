@@ -18,7 +18,7 @@
             <div class="col-1 col-md-3">
                 <h4>Search for a City:</h4>
                 <form class="row justify-content-center" id="city-form">
-                    <input type="text" class="form-input mb-2" id="city" placeholder="San Diego">
+                    <input name="citySearch" type="text" class="form-input mb-2" id="city" placeholder="San Diego">
                     <button type="submit" class="btn btn-primary mb-2" id="search-btn">Search</button>
                 </form>
                 <div class="row justify-content-center border-top border-secondary border-3" id="search-history">
@@ -26,6 +26,7 @@
                 </div>
             </div>
             <div class="col-10 col-md-8">
+                <!--Current weather will show here-->
                 <section id="city-wx"class="border border-dark bg-info">
                     <div id="dateTime">
                         <h3 id="cityName"></h3>
@@ -37,6 +38,7 @@
                     <p class="wind_speed"></p>
                     <p class="uvi"></p>
                 </section>
+                <!--Future Weather Forecast-->
                 <div class="row" id="fiveDayHeader"></div>
                 <div id="future-forecast" class="d-flex flex-row justify-content-between">
                 </div>
